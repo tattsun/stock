@@ -14,17 +14,17 @@ import           Stock.Types
 getArticle :: String -> Action m Article
 getArticle articleId = undefined
 
-getArticles :: ShowRegion -> Maybe (DateTime, DateTime) -> Maybe [Tag] -> IO [Article]
+getArticles :: ShowRegion -> Maybe (DateTime, DateTime) -> Maybe [Tag] -> Action m [Article]
 getArticles region mbtime mbtags = undefined
 
-postArticle :: ShowRegion -> String -> String -> String -> [Tag] -> String -> IO Article
+postArticle :: ShowRegion -> String -> String -> String -> [Tag] -> String -> Action m Article
 postArticle region title authorId authorName tags body = undefined
 
-updateArticle :: String -> [Tag] -> String -> IO Article
+updateArticle :: String -> [Tag] -> String -> Action m Article
 updateArticle title tags body = undefined
 
-getComments :: String -> IO [Comment]
+getComments :: String -> Action m [Comment]
 getComments articleId = undefined
 
-postComment :: String -> String -> String -> String -> IO [Comment]
+postComment :: String -> String -> String -> String -> Action m [Comment]
 postComment authorId authorName body = undefined
