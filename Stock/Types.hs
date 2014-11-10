@@ -1,5 +1,16 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Stock.Types where
+{-# LANGUAGE TemplateHaskell   #-}
+module Stock.Types
+       ( module Stock.Types
+       , module Stock.Types.DateTime
+       ) where
+
+import           Data.Aeson
+import           Data.Aeson.TH
+import           Data.Char
+
+--
+import           Stock.Types.DateTime
 
 ----------------------------------------------------------------------
 -- *** Article
@@ -11,8 +22,19 @@ data Comment = Comment { commentId         :: String
                        , commentBody       :: String
                        , commentTimestamp  :: String
                        } deriving (Show, Eq)
+$(deriveJSON defaultOptions{fieldLabelModifier = map toLower . drop 7} ''Comment)
+defaultComment = Comment { commentId = ""
+                         , commentAuthorId = ""
+                         , commentAuthorName = ""
+                         , commentBody = ""
+                         , commentTimestamp = ""
+                         }
+
+data ShowRegion = All | Organization deriving (Show, Eq)
+$(deriveJSON defaultOptions{constructorTagModifier = map toLower} ''ShowRegion)
 
 data Article = Article { articleId           :: String
+                       , articleShowRegion   :: ShowRegion
                        , articleTitle        :: String
                        , articleAuthorId     :: String
                        , articleAuthorName   :: String
@@ -23,11 +45,34 @@ data Article = Article { articleId           :: String
                        , articleLikeUserIds  :: [String]
                        , articleTimestamp    :: String
                        } deriving (Show, Eq)
+$(deriveJSON defaultOptions{fieldLabelModifier = map toLower . drop 7} ''Article)
+defaultArticle = Article { articleId = ""
+                         , articleShowRegion = All
+                         , articleTitle = ""
+                         , articleAuthorId = ""
+                         , articleAuthorName = ""
+                         , articleTag = ["未分類"]
+                         , articleBody = ""
+                         , articleStockUserIds = []
+                         , articleComments = []
+                         , articleLikeUserIds = []
+                         , articleTimestamp = ""
+                         }
 
 -------------------------------------------------------------------------------
 -- *** User
 data User = User { userId              :: String
                  , userPassword        :: String
+                 , userName            :: String
                  , userProfile         :: String
                  , userStockArticleIds :: [String]
+                 , userTimestamp       :: String
                  } deriving (Show, Eq)
+$(deriveJSON defaultOptions{fieldLabelModifier = map toLower . drop 4} ''User)
+defaultUser = User { userId = ""
+                   , userPassword = ""
+                   , userName = ""
+                   , userProfile = ""
+                   , userStockArticleIds = []
+                   , userTimestamp = ""
+                   }
