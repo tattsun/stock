@@ -5,27 +5,36 @@ import           Control.Monad.IO.Class
 import           Database.MongoDB
 import           Stock.Config
 import           Stock.Hash
+import           Stock.MongoDB
 import           Stock.Types
 
-addUser :: (MonadIO m, Monad m) => String -> String -> String -> Action m (Maybe User)
-addUser userid password name = do
+userCollection = "users"
+
+addUser :: (MonadIO m, Monad m) => Config -> String -> String -> String -> Action m (Maybe User)
+addUser conf userid password name = do
   userbyid <- findUser userid
   userbyname <- findUserByName name
   maybe (return Nothing) (\_ -> go) userbyid
   where
     go = do
-      ts <- liftIO $ getTimestamp
-      saveUser $ user ts
+      user <- makeuser
+      saveUser user
       u <- findUser userid
-      return $ u
-    user ts = defaultUser { userId = userid
-                          , userPassword = toHashBase64 password
-                          , userName = name
-                          , userTimestamp = ts
-                          }
+      return u
+    makeuser = do
+      ts <- liftIO getTimestamp
+      return $ defaultUser { userId = userid
+                           , userPassword = stHash conf password
+                           , userName = name
+                           , userTimestamp = ts
+                           }
 
 saveUser :: User -> Action m User
-saveUser user = undefined
+saveUser user = do
+  save userCollection userBson
+  u <- findUser $ userId user
+  return u
+  where userBson = obj2bson user
 
 findUser :: String -> Action m (Maybe User)
 findUser userid = undefined

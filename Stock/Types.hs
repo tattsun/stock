@@ -11,6 +11,17 @@ import           Data.Char
 
 --
 import           Stock.Types.DateTime
+import           Stock.Types.Internal
+
+----------------------------------------------------------------------
+-- *** Config
+data Config = Config { configServerPort      :: Int
+                     , configPasswordSalt    :: String
+                     , configMongoDBHostName :: String
+                     , configMongoDBName     :: String
+                     } deriving (Show, Eq)
+$(deriveJSON defaultOptions{fieldLabelModifier = fieldFix 6} ''Config)
+
 
 ----------------------------------------------------------------------
 -- *** Article
@@ -22,7 +33,7 @@ data Comment = Comment { commentId         :: String
                        , commentBody       :: String
                        , commentTimestamp  :: String
                        } deriving (Show, Eq)
-$(deriveJSON defaultOptions{fieldLabelModifier = map toLower . drop 7} ''Comment)
+$(deriveJSON defaultOptions{fieldLabelModifier = fieldFix 7} ''Comment)
 defaultComment = Comment { commentId = ""
                          , commentAuthorId = ""
                          , commentAuthorName = ""
@@ -45,7 +56,7 @@ data Article = Article { articleId           :: String
                        , articleLikeUserIds  :: [String]
                        , articleTimestamp    :: String
                        } deriving (Show, Eq)
-$(deriveJSON defaultOptions{fieldLabelModifier = map toLower . drop 7} ''Article)
+$(deriveJSON defaultOptions{fieldLabelModifier = fieldFix 7} ''Article)
 defaultArticle = Article { articleId = ""
                          , articleShowRegion = All
                          , articleTitle = ""
@@ -68,7 +79,7 @@ data User = User { userId              :: String
                  , userStockArticleIds :: [String]
                  , userTimestamp       :: String
                  } deriving (Show, Eq)
-$(deriveJSON defaultOptions{fieldLabelModifier = map toLower . drop 4} ''User)
+$(deriveJSON defaultOptions{fieldLabelModifier = fieldFix 4} ''User)
 defaultUser = User { userId = ""
                    , userPassword = ""
                    , userName = ""

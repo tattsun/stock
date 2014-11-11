@@ -1,5 +1,6 @@
 {-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE OverloadedStrings  #-}
+{-# LANGUAGE TemplateHaskell    #-}
 module Stock.Config
        ( Config (..)
        , loadConfig
@@ -8,18 +9,12 @@ module Stock.Config
 import           Control.Applicative
 import           Control.Exception
 import           Data.Aeson
+import           Data.Aeson.TH
+import           Data.Char
 import           Data.Maybe
 import           Data.String.Conv
 import           Data.Typeable
-
-data Config = Config { configServerPort      :: Int
-                     , configMongoDBHostName :: String
-                     } deriving (Show, Eq)
-
-instance FromJSON Config where
-  parseJSON (Object v) = Config <$>
-                         v .: "serverPort" <*>
-                         v .: "mongoDBHostName"
+import           Stock.Types
 
 data ConfigException = ConfigNotFoundException FilePath | ConfigInvalidException FilePath deriving Typeable
 instance Show ConfigException where
