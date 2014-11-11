@@ -4,6 +4,7 @@ module Stock.Scotty
        ( Status(..)
        , toStatus
        , htmlEscape
+       , hamletPath
        ) where
 
 import           Data.Aeson
@@ -24,3 +25,5 @@ htmlEscape = fromString . escape . toString
                    . replace "<" "&lt;"
                    . replace "\"" "&quot;"
                    . replace "&" "&amp;" $ s
+
+hamletPath page = concat ["views/", page, ".hamlet"]

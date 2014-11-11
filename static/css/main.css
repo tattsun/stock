@@ -1,0 +1,61 @@
+/* override bootstrap */
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 750px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 970px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 970px;
+  }
+}
+
+/* main css */
+
+body {
+//    background-color: #777F72;
+}
+
+header {
+    background-color: #1A1C19;
+    height: 170px;
+    padding-top: 35px;
+    border-top: 3px solid #434740;
+
+    color: #fff;
+}
+
+.bgwhite {
+    background-color: #fff;
+}
+
+.leftcolumn {
+    padding: 1em 0 1em 1em;
+}
+
+.rightcolumn {
+    padding: 1em 1em 1em 0;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+.timestamp {
+    font-size: 0.8em;
+    color: #7C8577;
+    font-weight: italic;
+}
+
+.tags {
+    color: #7C8577;
+    text-align: right;
+}

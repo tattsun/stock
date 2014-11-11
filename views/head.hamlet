@@ -1,0 +1,8 @@
+<head>
+  <meta charset=UTF-8>
+  $if isJust title
+    <title>#{T.pack $ fromJust title} - #{T.pack $ configBlogTitle conf}
+  $else
+    <title>#{T.pack $ configBlogTitle conf}
+  <link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootswatch/3.3.0/flatly/bootstrap.min.css>
+  <link rel=stylesheet href=/css/main.css>

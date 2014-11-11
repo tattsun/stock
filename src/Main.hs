@@ -22,7 +22,8 @@ import           Stock.Types
 
 middlewares conf = do
   middleware simpleCors
-  middleware $ S.staticPolicy $ S.addBase (configStaticPath conf) S.>-> (S.contains "/js/" S.<|> S.contains "/css/")
+  middleware $ S.staticPolicy $ S.addBase (configStaticPath conf) S.>-> (S.contains "/js/" S.<|> S.contains "/css/"
+                                                                        S.<|> S.contains "/img/")
 
 run :: Config -> IO ()
 run conf = scotty (configServerPort conf) $ do
