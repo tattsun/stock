@@ -5,6 +5,7 @@ module Stock.Types
        , module Stock.Types.DateTime
        ) where
 
+import           Codec.Binary.UTF8.String
 import           Data.Aeson
 import           Data.Aeson.TH
 import           Data.Char
@@ -22,6 +23,7 @@ data Config = Config { configServerPort      :: Int
                      , configTokenLimitSec   :: Int
                      , configMongoDBHostName :: String
                      , configMongoDBName     :: String
+                     , configBlogTitle       :: String
                      } deriving (Show, Eq)
 $(deriveJSON defaultOptions{fieldLabelModifier = fieldFix 6} ''Config)
 
@@ -44,7 +46,7 @@ defaultComment = Comment { commentId = ""
                          , commentTimestamp = ""
                          }
 
-data ShowRegion = Public | Private deriving (Show, Eq)
+data ShowRegion = Public | Private deriving (Show, Eq, Read)
 $(deriveJSON defaultOptions{constructorTagModifier = map toLower} ''ShowRegion)
 
 data Article = Article { articleId           :: String

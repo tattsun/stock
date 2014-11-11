@@ -1,31 +1,49 @@
-<html>
-<head>
-</head>
-<body>
+<!DOCTYPE html>
+  <head>
+    <meta charset="UTF-8">
+  </head>
+  <body>
 
-<h1>User</h1>
-<h3>POST /user - regist new user</h3>
-<form action="http://localhost:8080/user" method="post">
-userid: <input type="text" name="userid"><br />
-password: <input type="text" name="password"><br />
-name: <input type="text" name="name"><br />
-<input type="submit" value="Submit">
-</form>
+    <div class="api_set">
+      <h2>User</h2>
+      <h3>POST /user - regist new user</h3>
+      <form action="http://localhost:8080/user" method="post">
+        userid: <input type="text" name="userid"><br />
+        password: <input type="text" name="password"><br />
+        name: <input type="text" name="name"><br />
+        <input type="submit" value="Submit">
+      </form>
 
-<h3>POST /user/login - login and get token</h3>
-<form action="http://localhost:8080/user/login" method="post">
-userid: <input type="text" name="userid"><br />
-password: <input type="text" name="password"><br />
-<input type="submit" value="Submit">
-</form>
+      <h3>POST /user/login - login and get token</h3>
+      <form action="http://localhost:8080/user/login" method="post">
+        userid: <input type="text" name="userid"><br />
+        password: <input type="text" name="password"><br />
+        <input type="submit" value="Submit">
+      </form>
 
-<h3>POST /user/token - authorize token</h3>
-<form action="http://localhost:8080/user/token" method="post">
-userid: <input type="text" name="userid"><br />
-token: <input type="text" name="token"><br />
-<input type="submit" value="Submit">
-</form>
+      <h3>POST /user/token - authorize token</h3>
+      <form action="http://localhost:8080/user/token" method="post">
+        userid: <input type="text" name="userid"><br />
+        token: <input type="text" name="token"><br />
+        <input type="submit" value="Submit">
+      </form>
+    </div>
+
+    <div class="api_set">
+      <h2>Article</h2>
+      <h3>POST /article - add new article</h3>
+      <form action="http://localhost:8080/article" method="post">
+        userid: <input type="text" name="userid"><br />
+        token: <input type="text" name="token"><br />
+        region(Public, Private): <input type="text" name="region"><br />
+        title: <input type="text" name="title"><br />
+        tags(separator: ,): <input type="text" name="tags"><br />
+        body: <input type="text" name="body"><br />
+        <input type="submit" value="Submit">
+      </form>
+
+    </div>
 
 
-</body>
+  </body>
 </html>

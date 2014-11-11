@@ -1,4 +1,9 @@
 {
     "serverPort": 8080,
-    "mongoDBHostName": "localhost"
+    "staticPath": "static",
+    "passwordSalt": "foobar",
+    "topArticlesNum": 5,
+    "tokenLimitSec": 300,
+    "mongoDBHostName": "localhost",
+    "mongoDBName": "stock"
 }

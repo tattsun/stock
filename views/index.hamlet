@@ -1,0 +1,7 @@
+$doctype 5
+<head>
+  <meta charset=UTF-8>
+  <title>#{pack $ configBlogTitle conf}</title>
+<body>
+  $forall article <- articles
+    #{pack $ articleTitle article}<br />

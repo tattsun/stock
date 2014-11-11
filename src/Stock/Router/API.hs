@@ -1,7 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Stock.Router.API where
 
+import           Control.Applicative
 import           Control.Monad.IO.Class
+import           Data.List.Split
+import           Data.Maybe
 import           Web.Scotty
 
 --
@@ -9,7 +12,12 @@ import           Stock.Article
 import           Stock.Config
 import           Stock.MongoDB
 import           Stock.Scotty
+import           Stock.Scotty
+import           Stock.Types
 import           Stock.User
+
+-- debug
+import           Debug.Trace
 
 japiUser conf = do
   post "/user" $ do
@@ -34,4 +42,19 @@ japiUser conf = do
     res <- liftIO . runMongo conf $ authorizeToken userid token
     if res
       then json $ toStatus Success ""
+      else json $ toStatus Unauthorized ""
+
+japiArticle conf = do
+  post "/article" $ do
+    userid <- param "userid"
+    token <- param "token"
+    region <- read <$> param "region"
+    title <- htmlEscape <$> param "title"
+    tags <- splitOn "," <$> htmlEscape <$> param "tags"
+    body <- htmlEscape <$> param "body"
+    auth <- liftIO . runMongo conf $ authorizeToken userid token
+    if auth
+      then do user <- liftIO . runMongo conf $ (fromJust <$> findUser userid)
+              a <- liftIO $ runMongo conf $ postArticle region title userid (userName user) tags body
+              json $ toStatus Success (articleId a)
       else json $ toStatus Unauthorized ""

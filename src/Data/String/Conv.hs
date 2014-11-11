@@ -1,3 +1,4 @@
+{-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE OverloadedStrings #-}
 module Data.String.Conv
        ( SerializeString (..)
@@ -17,6 +18,10 @@ class SerializeString a where
   fromString :: String -> a
 
 -- *** Instances
+
+instance SerializeString [Char] where
+  toString = id
+  fromString = id
 
 instance SerializeString B.ByteString where
   toString = BU8.toString

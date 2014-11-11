@@ -13,6 +13,12 @@ import           Stock.Config
 import           Stock.Router
 import           Stock.Scotty
 
+-- debug
+import           Codec.Binary.UTF8.String
+import           Data.String.Conv
+import qualified Data.Text.Lazy                as T
+import           Stock.MongoDB
+import           Stock.Types
 
 middlewares conf = do
   middleware simpleCors
@@ -22,6 +28,8 @@ run :: Config -> IO ()
 run conf = scotty (configServerPort conf) $ do
   middlewares conf
   japiUser conf
+  japiArticle conf
+  viewIndex conf
 
 main :: IO ()
 main = do

@@ -33,7 +33,7 @@ findArticles :: (Functor m, MonadIO m, MonadBaseControl IO m) =>
 findArticles conf cursorM limitM region mbtime mbtags = do
   mbtimestr <- liftIO $ getStrTimes mbtime
   filter (\a -> articleShowRegion a == region) . catMaybes . map bson2obj
-    <$> (rest =<< find (select (genFields mbtimestr mbtags) articleCollection) { sort = ["timestamp" =: (1 :: Int)]
+    <$> (rest =<< find (select (genFields mbtimestr mbtags) articleCollection) { sort = ["timestamp" =: (-1 :: Int)]
                                                                                , skip = cursor
                                                                                , limit = limit })
   where
