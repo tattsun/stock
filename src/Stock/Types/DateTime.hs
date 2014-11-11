@@ -1,16 +1,22 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Stock.Types.DateTime where
+module Stock.Types.DateTime
+       ( UnixTime(..)
+       , getTimestamp
+       , timeToString
+       , parseToTime
+       ) where
 
 import           Control.Applicative
 import           Data.String.Conv
 import           Data.UnixTime
 
-data DateTime = DateTime { dtYear  :: Int
-                         , dtMonth :: Int
-                         , dtHour  :: Int
-                         , dtMin   :: Int
-                         , dtSec   :: Int
-                         } deriving (Show, Eq)
+fmt = "%Y-%m-%d %H:%M:%S"
 
 getTimestamp :: IO String
-getTimestamp = toString <$> (getUnixTime >>= formatUnixTime "%Y-%m-%d %H:%M:%S")
+getTimestamp = getUnixTime >>= timeToString
+
+timeToString :: UnixTime -> IO String
+timeToString ut = toString <$> formatUnixTime fmt ut
+
+parseToTime :: String -> UnixTime
+parseToTime str = parseUnixTime fmt (fromString str)

@@ -1,9 +1,16 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Stock.User where
+module Stock.User
+       ( addUser
+       , findUser
+       , updateUserProfile
+       , authorizeUser
+       ) where
 
 import           Control.Applicative
 import           Control.Monad.IO.Class
-import           Database.MongoDB
+import           Database.MongoDB       hiding (addUser)
+
+--
 import           Stock.Config
 import           Stock.Hash
 import           Stock.MongoDB
@@ -59,8 +66,8 @@ updateUserProfile userid name profile = do
   user <- maybe Nothing (\u -> Just u { userName = name, userProfile = profile }) <$> findUser userid
   maybe (return Nothing) saveUser user
 
-changePassword :: String -> String -> Action m User
-changePassword userid newpassword = undefined
+--changePassword :: String -> String -> Action m User
+--changePassword userid newpassword = undefined
 
 authorizeUser :: (Monad m, Functor m, MonadIO m) =>
                  Config -> String -> String -> Action m Bool
