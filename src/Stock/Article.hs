@@ -21,6 +21,18 @@ import Stock.MongoDB
 import Stock.Types
 import Stock.Random
 
+----------------------------------------------------------------------
+-- debug
+import System.IO.Unsafe
+import Debug.Trace
+
+--d = do
+--  conf <- loadConfig "config.json"
+--  res <- runMongo conf $ findArticles conf Nothing Nothing Public Nothing (Just ["Ruby"])
+--  return res
+
+----------------------------------------------------------------------
+
 articleCollection = "articles"
 
 findArticle :: (Functor m, MonadIO m) => String -> Action m (Maybe Article)
@@ -29,17 +41,19 @@ findArticle articleId = maybe Nothing bson2obj <$> findOne (select ["id" =: arti
 findArticles :: (Functor m, MonadIO m, MonadBaseControl IO m) =>
                 Config ->
                 Maybe Integer -> Maybe Integer ->
-                ShowRegion -> Maybe (UnixTime, UnixTime) -> Maybe [Tag] -> Action m [Article]
-findArticles conf cursorM limitM region mbtime mbtags = do
+                ShowRegion -> Maybe (UnixTime, UnixTime) -> Maybe [Tag] -> Maybe String -> Action m [Article]
+findArticles conf cursorM limitM region mbtime mbtags mbuser = do
   mbtimestr <- liftIO $ getStrTimes mbtime
-  filter (\a -> articleShowRegion a == region) . catMaybes . map bson2obj
-    <$> (rest =<< find (select (genFields mbtimestr mbtags) articleCollection) { sort = ["timestamp" =: (-1 :: Int)]
-                                                                               , skip = cursor
-                                                                               , limit = limit })
+  filter (\a -> if region == Private || (region == Public && articleShowRegion a == Public)
+                then True
+                else False) . catMaybes . map bson2obj
+    <$> (rest =<< find (select (genFields mbtimestr mbtags mbuser) articleCollection) { sort = ["timestamp" =: (-1 :: Int)]
+                                                                                      , skip = cursor
+                                                                                      , limit = limit })
   where
     cursor = maybe 0 fromIntegral cursorM
     limit = maybe (fromIntegral . configTopArticlesNum $ conf) fromIntegral limitM
-    genFields mbtime mbtags = selectWithTime mbtime ++ selectWithTags mbtags
+    genFields mbtime mbtags mbuser = selectWithTime mbtime ++ selectWithTags mbtags ++ selectWithUsers mbuser
     getStrTimes (Just (start, end)) = do
       startStr <- timeToString start
       endStr <- timeToString end
@@ -47,8 +61,10 @@ findArticles conf cursorM limitM region mbtime mbtags = do
     getStrTimes Nothing = return Nothing
     selectWithTime (Just (start, end)) = ["timestamp" =: ["$gte" =: start, "$lte" =: end]]
     selectWithTime Nothing = []
-    selectWithTags (Just tags) = ["tag" =: ["$in": tags]]
+    selectWithTags (Just tags) = ["tag" =: ["$in" =: tags]]
     selectWithTags Nothing = []
+    selectWithUsers (Just userid) = ["authorId" =: userid]
+    selectWithUsers Nothing = []
 
 isExistsArticleId :: (Functor m, MonadIO m) => String -> Action m Bool
 isExistsArticleId articleId = maybe False (const True) <$> findArticle articleId

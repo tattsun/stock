@@ -5,11 +5,16 @@ module Stock.Scotty
        , toStatus
        , htmlEscape
        , hamletPath
+       , paramDefault
+       , paramMaybe
        ) where
 
+import           Control.Applicative
+import           Control.Exception
 import           Data.Aeson
 import           Data.String.Conv
 import           Data.String.Utils
+import qualified Data.Text.Lazy      as TL
 import           Web.Scotty
 
 
@@ -27,3 +32,9 @@ htmlEscape = fromString . escape . toString
                    . replace "&" "&amp;" $ s
 
 hamletPath page = concat ["views/", page, ".hamlet"]
+
+paramDefault :: (Parsable a) => TL.Text -> a -> ActionM a
+paramDefault p def = param p `rescue` (\_ -> return def)
+
+paramMaybe :: (Parsable a) => TL.Text -> ActionM (Maybe a)
+paramMaybe p = (Just <$> param p) `rescue` (\_ -> return Nothing)

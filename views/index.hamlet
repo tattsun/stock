@@ -9,16 +9,8 @@ $doctype 5
     <div .row>
       <div .col-sm-8 .bgwhite>
         <div .leftcolumn>
-          <div .bs-component>
-            <div .panel .panel-default>
-              <div .panel-body>
-                <div .row>
-                  <div .col-sm-4 .timestamp>
-                    2014-11-11 05:35
-                  <div .col-sm-8 .tags>
-                    tags tags tags
-                <h2>Article
-                This is body
+          $forall article <- articles
+            ^{getArticleView conf article}
       <div .col-sm-4>
         <div .rightcolumn>
           <h4>Tags

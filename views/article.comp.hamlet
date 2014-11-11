@@ -1,0 +1,18 @@
+<div .bs-component>
+  <div .panel .panel-default>
+    <div .panel-body>
+      <div .row>
+        <div .col-sm-4 .timestamp>
+          #{T.pack $ articleTimestamp article}
+        <div .col-sm-8 .tags>
+          $forall tag <- articleTag article
+            <a href=/tag/#{T.pack $ tag} .taglink>#{T.pack $ tag}
+      <a href=/#{T.pack $ articleId article}>
+        <h2>#{T.pack $ articleTitle article}
+      <div>
+        #{T.pack $ articleBody article}
+      <div .articleinfo>
+        posted by #
+        <a href=/users/#{T.pack $ articleAuthorId article}>#{T.pack $ articleAuthorName article}
+        \,
+        #{T.pack $ show $ length $ articleComments article} comments

@@ -21,7 +21,17 @@
 /* main css */
 
 body {
-//    background-color: #777F72;
+    color: #384F66;
+}
+
+a {
+    color: #384F66;
+}
+a:hover {
+    color: #2A3B4C;
+}
+a:visited {
+    color: #2A3B4C;
 }
 
 header {
@@ -58,4 +68,16 @@ h2 {
 .tags {
     color: #7C8577;
     text-align: right;
+}
+
+.articleinfo {
+    border-top: 1px dashed #BCC9B4;
+    margin-top: 1em;
+    padding: 0.5em 0.2em 0.2em 0.2em;
+    font-size: 0.9em;
+    color: #7C8577;
+}
+
+.taglink {
+    margin-left: 0.3em;
 }
