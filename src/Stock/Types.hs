@@ -18,6 +18,8 @@ import           Stock.Types.Internal
 data Config = Config { configServerPort      :: Int
                      , configPasswordSalt    :: String
                      , configStaticPath      :: String
+                     , configTopArticlesNum  :: Int
+                     , configTokenLimitSec   :: Int
                      , configMongoDBHostName :: String
                      , configMongoDBName     :: String
                      } deriving (Show, Eq)
@@ -42,7 +44,7 @@ defaultComment = Comment { commentId = ""
                          , commentTimestamp = ""
                          }
 
-data ShowRegion = All | Organization deriving (Show, Eq)
+data ShowRegion = Public | Private deriving (Show, Eq)
 $(deriveJSON defaultOptions{constructorTagModifier = map toLower} ''ShowRegion)
 
 data Article = Article { articleId           :: String
@@ -59,7 +61,7 @@ data Article = Article { articleId           :: String
                        } deriving (Show, Eq)
 $(deriveJSON defaultOptions{fieldLabelModifier = fieldFix 7} ''Article)
 defaultArticle = Article { articleId = ""
-                         , articleShowRegion = All
+                         , articleShowRegion = Public
                          , articleTitle = ""
                          , articleAuthorId = ""
                          , articleAuthorName = ""
@@ -79,6 +81,8 @@ data User = User { userId              :: String
                  , userProfile         :: String
                  , userStockArticleIds :: [String]
                  , userTimestamp       :: String
+                 , userToken           :: String
+                 , userTokenLimit      :: String
                  } deriving (Show, Eq)
 $(deriveJSON defaultOptions{fieldLabelModifier = fieldFix 4} ''User)
 defaultUser = User { userId = ""
@@ -87,4 +91,6 @@ defaultUser = User { userId = ""
                    , userProfile = ""
                    , userStockArticleIds = []
                    , userTimestamp = ""
+                   , userToken = ""
+                   , userTokenLimit = ""
                    }

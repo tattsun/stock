@@ -27,15 +27,18 @@ findArticle :: (Functor m, MonadIO m) => String -> Action m (Maybe Article)
 findArticle articleId = maybe Nothing bson2obj <$> findOne (select ["id" =: articleId] articleCollection)
 
 findArticles :: (Functor m, MonadIO m, MonadBaseControl IO m) =>
-                Integer -> Integer ->
+                Config ->
+                Maybe Integer -> Maybe Integer ->
                 ShowRegion -> Maybe (UnixTime, UnixTime) -> Maybe [Tag] -> Action m [Article]
-findArticles cursor limit region mbtime mbtags = do
+findArticles conf cursorM limitM region mbtime mbtags = do
   mbtimestr <- liftIO $ getStrTimes mbtime
   filter (\a -> articleShowRegion a == region) . catMaybes . map bson2obj
     <$> (rest =<< find (select (genFields mbtimestr mbtags) articleCollection) { sort = ["timestamp" =: (1 :: Int)]
-                                                                               , skip = fromIntegral cursor
-                                                                               , limit = fromIntegral limit })
+                                                                               , skip = cursor
+                                                                               , limit = limit })
   where
+    cursor = maybe 0 fromIntegral cursorM
+    limit = maybe (fromIntegral . configTopArticlesNum $ conf) fromIntegral limitM
     genFields mbtime mbtags = selectWithTime mbtime ++ selectWithTags mbtags
     getStrTimes (Just (start, end)) = do
       startStr <- timeToString start

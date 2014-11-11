@@ -4,6 +4,8 @@ module Stock.User
        , findUser
        , updateUserProfile
        , authorizeUser
+       , generateToken
+       , authorizeToken
        ) where
 
 import           Control.Applicative
@@ -14,6 +16,7 @@ import           Database.MongoDB       hiding (addUser)
 import           Stock.Config
 import           Stock.Hash
 import           Stock.MongoDB
+import           Stock.Random
 import           Stock.Types
 
 ----------------------------------------------------------------------
@@ -24,7 +27,7 @@ userCollection = "users"
 addUser :: (MonadIO m, Monad m, Functor m, Applicative m) =>
            Config -> String -> String -> String -> Action m (Maybe User)
 addUser conf userid password name = do
-  isduplicate <- ((&&) <$> isExistsUserId userid) <*> isExistsUserName name
+  isduplicate <- ((||) <$> isExistsUserId userid) <*> isExistsUserName name
   if isduplicate
     then return Nothing
     else makeuser >>= saveUser
@@ -74,3 +77,27 @@ authorizeUser :: (Monad m, Functor m, MonadIO m) =>
 authorizeUser conf userid password = do
   isauthorized <- maybe Nothing (\u -> Just $ userPassword u == stHash conf password) <$> findUser userid
   return $ maybe False id isauthorized
+
+generateToken :: (MonadIO m, Functor m) => Config -> String -> Action m String
+generateToken conf userid = do
+  token <- liftIO $ randomStr 50
+  tokenLimit <- liftIO . getTimestampShiftSec . fromIntegral $ configTokenLimitSec conf
+  user <- maybe Nothing (\u -> Just $ u { userToken = token, userTokenLimit = tokenLimit }) <$> findUser userid
+  maybe (return Nothing) saveUser user
+  return token
+
+authorizeToken :: (MonadIO m, Functor m) =>
+                  String -> String -> Action m Bool
+authorizeToken userid token = do
+  user <- findUser userid
+  maybe (return False) go user
+  where
+    go user = do
+      let tokenR = userToken user
+          limit = parseToTime $ userTokenLimit user
+      now <- liftIO $ getUnixTime
+      if now > limit
+        then return False
+        else if tokenR == token
+             then return True
+             else return False

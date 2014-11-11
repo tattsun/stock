@@ -1,7 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Stock.Types.DateTime
        ( UnixTime(..)
+       , getUnixTime
        , getTimestamp
+       , getTimestampShiftSec
        , timeToString
        , parseToTime
        ) where
@@ -14,6 +16,10 @@ fmt = "%Y-%m-%d %H:%M:%S"
 
 getTimestamp :: IO String
 getTimestamp = getUnixTime >>= timeToString
+
+getTimestampShiftSec :: Integer -> IO String
+getTimestampShiftSec sec = flip addUnixDiffTime (secondsToUnixDiffTime sec) <$> getUnixTime
+                           >>= timeToString
 
 timeToString :: UnixTime -> IO String
 timeToString ut = toString <$> formatUnixTime fmt ut

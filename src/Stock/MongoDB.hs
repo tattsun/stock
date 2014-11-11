@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Stock.MongoDB
-       ( obj2bson
+       ( runMongo
+       , obj2bson
        , bson2obj
        ) where
 

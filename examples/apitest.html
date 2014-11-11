@@ -1,0 +1,31 @@
+<html>
+<head>
+</head>
+<body>
+
+<h1>User</h1>
+<h3>POST /user - regist new user</h3>
+<form action="http://localhost:8080/user" method="post">
+userid: <input type="text" name="userid"><br />
+password: <input type="text" name="password"><br />
+name: <input type="text" name="name"><br />
+<input type="submit" value="Submit">
+</form>
+
+<h3>POST /user/login - login and get token</h3>
+<form action="http://localhost:8080/user/login" method="post">
+userid: <input type="text" name="userid"><br />
+password: <input type="text" name="password"><br />
+<input type="submit" value="Submit">
+</form>
+
+<h3>POST /user/token - authorize token</h3>
+<form action="http://localhost:8080/user/token" method="post">
+userid: <input type="text" name="userid"><br />
+token: <input type="text" name="token"><br />
+<input type="submit" value="Submit">
+</form>
+
+
+</body>
+</html>

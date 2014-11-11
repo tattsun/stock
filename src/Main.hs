@@ -2,6 +2,7 @@
 module Main where
 
 import           Control.Applicative
+import           Control.Monad.IO.Class
 import           Network.Wai.Middleware.Cors
 import qualified Network.Wai.Middleware.Static as S
 import           System.Environment
@@ -9,13 +10,18 @@ import           Web.Scotty
 
 --
 import           Stock.Config
+import           Stock.Router
+import           Stock.Scotty
+
+
+middlewares conf = do
+  middleware simpleCors
+  middleware $ S.staticPolicy $ S.addBase (configStaticPath conf) S.>-> (S.contains "/js/" S.<|> S.contains "/css/")
 
 run :: Config -> IO ()
-run config = scotty (configServerPort config) $ do
-  middleware simpleCors
-  middleware $ S.staticPolicy $ S.addBase (configStaticPath config) S.>-> (S.contains "/js/" S.<|> S.contains "/css/")
-  get "/" $ do
-    html $ "Hello, World"
+run conf = scotty (configServerPort conf) $ do
+  middlewares conf
+  japiUser conf
 
 main :: IO ()
 main = do
