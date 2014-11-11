@@ -17,6 +17,7 @@ import           Stock.Types.Internal
 -- *** Config
 data Config = Config { configServerPort      :: Int
                      , configPasswordSalt    :: String
+                     , configStaticPath      :: String
                      , configMongoDBHostName :: String
                      , configMongoDBName     :: String
                      } deriving (Show, Eq)
