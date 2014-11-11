@@ -18,6 +18,7 @@ cabal-version:       >=1.10
 
 executable stock
   main-is:             Main.hs
+  hs-source-dirs:      src
   -- other-modules:
   other-extensions:    OverloadedStrings, DeriveDataTypeable, TemplateHaskell
   build-depends:       AesonBson
@@ -38,3 +39,26 @@ executable stock
                      , wai-cors >=0.2 && <0.3
   -- hs-source-dirs:
   default-language:    Haskell2010
+
+test-suite test-stock
+  type:                exitcode-stdio-1.0
+  main-is:             Spec.hs
+  hs-source-dirs:      src, test
+  build-depends:       base >= 4.7
+                     , hspec
+                     , SHA2
+                     , aeson >= 0.6.2.1
+                     , base >=4.7 && <4.8
+                     , base64-bytestring
+                     , bson >= 0.3.1
+                     , bytestring >=0.10 && <0.11
+                     , deepseq >=1.3 && <1.4
+                     , mongoDB
+                     , mtl >=2.1 && <2.2
+                     , scotty >=0.9 && <0.10
+                     , text >=1.2 && <1.3
+                     , transformers >=0.3 && <0.4
+                     , unix-time >= 0.3.4
+                     , utf8-string >=0.3 && <0.4
+                     , wai-cors >=0.2 && <0.3
+                     , AesonBson

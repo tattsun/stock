@@ -4,13 +4,23 @@ module Stock.MongoDB
        , bson2obj
        ) where
 
-import qualified Data.Aeson       as A
+import           Control.Monad.IO.Class
+import qualified Data.Aeson             as A
 import           Data.AesonBson
-import qualified Data.Bson        as B
+import qualified Data.Bson              as B
 import           Database.MongoDB
 
 --
+import           Data.String.Conv
+import           Stock.Config
 import           Stock.Types
+
+runMongo :: Config -> Action IO a -> IO a
+runMongo conf act = do
+  pipe <- connect (host $ configMongoDBHostName conf)
+  res <- access pipe master (fromString $ configMongoDBName conf) act
+  close pipe
+  return res
 
 obj2bson :: (A.ToJSON a) => a -> B.Document
 obj2bson = getDoc . bsonifyValue . A.toJSON
