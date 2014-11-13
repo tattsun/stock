@@ -2,16 +2,16 @@ $doctype 5
 <html>
   ^{getHead conf Nothing}
   <body>
-  <header>
+    <header>
+      <div .container>
+        <h1>kamasu.jp developer's blog
     <div .container>
-      <h1>kamasu.jp developer's blog
-  <div .container>
-    <div .row>
-      <div .col-sm-8 .bgwhite>
-        <div .leftcolumn>
-          $forall article <- articles
-            ^{getArticleView conf article}
-      <div .col-sm-4>
-        <div .rightcolumn>
-          ^{rightmenu}
-  ^{getFooter conf}
+      <div .row>
+        <div .col-sm-8 .bgwhite>
+          <div .leftcolumn>
+            $forall article <- articles
+              ^{getArticleView conf article}
+        <div .col-sm-4>
+          <div .rightcolumn>
+            ^{rightmenu}
+    ^{getFooter conf}
