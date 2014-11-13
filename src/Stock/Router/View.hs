@@ -31,6 +31,8 @@ viewIndex conf = do
     articles <- liftIO . runMongo conf $ findArticles conf cursorM Nothing Public Nothing Nothing Nothing
     html $ renderHtml $ $(hamletFile $ hamletPath "index") undefined
   get "/archive/:year/:month" $ do
+    year <- param "year"
+    month <- param "month"
     html ""
   get "/users/:user" $ do
     cursorM <- paramMaybe "cursor"

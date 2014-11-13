@@ -8,6 +8,7 @@ Knowledge stocking web tool, written in Haskell.
 - [ ] Archive view
 - [ ] Login view
 - [ ] Post view
+- [ ] Side menu
 - [x] Markdown Converter
 - [ ] Markdown Converter(improve)
 - [ ] Private/Public Views
