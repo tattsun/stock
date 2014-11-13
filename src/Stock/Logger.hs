@@ -11,6 +11,9 @@ import           Control.Monad.IO.Class
 import           Control.Monad.Trans
 import           System.IO.Unsafe
 
+
+
+
 type Log = String
 
 newtype Logger a = Logger { runLogger :: [Log] -> (a, [Log]) }
@@ -19,7 +22,7 @@ newtype Logger a = Logger { runLogger :: [Log] -> (a, [Log]) }
 -- *** Monad
 
 instance Monad Logger where
-  return a = Logger $ \ls -> (a, ls)
+  return a = Logger (\ls -> (a, ls))
   (Logger a) >>= f = Logger $ \ls ->
     let
       (val, ls') = a ls
@@ -58,8 +61,23 @@ instance MonadTrans LoggerT where
 
 instance (MonadIO m) => MonadIO (LoggerT m) where
   liftIO = lift . liftIO
+
 ----------------------------------------------------------------------
 --
+
+logt :: String -> Logger ()
+logt l = Logger $ \ls -> ((), ls ++ [l])
+
+test :: Logger ()
+test = do
+  logt "Hello"
+  logt "World"
+
+execLoggert :: Logger a -> IO a
+execLoggert logger = do
+  let (a, logs) = runLogger logger []
+  sequence_ $ map putStrLn logs
+  return a
 
 execLogger :: (Monad m, MonadIO m) => LoggerT m a -> m a
 execLogger logger = do
@@ -79,10 +97,9 @@ logError l = logStd ("Error: " ++ l)
 --logger :: LoggerT m ()
 --logger = pure ()
 
-test :: LoggerT IO ()
-test = do
-  logStd "foo"
-  liftIO $ putStrLn "Hello, World"
-  logStd "Bar"
+--test :: LoggerT IO ()
+--test = do
+--  logStd "foo"
+--  logStd "Bar"
 
-t = execLogger test
+--t = execLogger test
