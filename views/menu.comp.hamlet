@@ -1,0 +1,11 @@
+<h4>Tags
+$forall tag <- tags
+  <span .menutag><a href=/tag/#{T.pack $ tagCountName tag}>#{T.pack $ tagCountName tag}(#{T.pack $ show $ tagCountCount tag})
+<h4>Search
+search
+<h4>Recently
+<ul>
+  $forall recent <- recents
+    <li><a href=/#{T.pack $ articleId recent}>#{T.pack $ cutTitle 8 $ articleTitle recent}
+<h4>Archive
+archive

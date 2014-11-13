@@ -96,3 +96,13 @@ defaultUser = User { userId = ""
                    , userToken = ""
                    , userTokenLimit = ""
                    }
+----------------------------------------------------------------------
+-- *** TagCount
+
+data TagCount = TagCount { tagCountName  :: String
+                         , tagCountCount :: Integer
+                         } deriving (Show, Eq)
+$(deriveJSON defaultOptions{fieldLabelModifier = fieldFix 8} ''TagCount)
+
+instance Ord TagCount where
+  l `compare` r = (tagCountCount l) `compare` (tagCountCount r)

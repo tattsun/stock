@@ -17,6 +17,7 @@ import           Stock.Article
 import           Stock.Config
 import           Stock.MongoDB
 import           Stock.Scotty
+import           Stock.Tags
 import           Stock.Types
 
 getHead conf title = $(hamletFile $ hamletPath "head")
@@ -25,15 +26,27 @@ getFooter conf = $(hamletFile $ hamletPath "footer")
 
 getArticleView conf article = $(hamletFile $ hamletPath "article.comp")
 
+cutTitle len str = take len str ++ if length str > len
+                                   then "..."
+                                   else []
+
 viewIndex conf = do
+  tags <- liftIO . runMongo conf $ getTagCounts
+  recents <- liftIO . runMongo conf $ findArticles conf Nothing (Just 10) Public Nothing Nothing Nothing
+  let rightmenu = $(hamletFile $ hamletPath "menu.comp")
   get "/" $ do
     cursorM <- paramMaybe "cursor"
     articles <- liftIO . runMongo conf $ findArticles conf cursorM Nothing Public Nothing Nothing Nothing
     html $ renderHtml $ $(hamletFile $ hamletPath "index") undefined
   get "/archive/:year/:month" $ do
+    cursorM <- paramMaybe "cursor"
     year <- param "year"
     month <- param "month"
-    html ""
+    endM <- liftIO $ getLastDayOfMonth year month
+    let start = getFirstDayOfMonth year month
+        period = maybe Nothing (\end -> Just (start, end)) endM
+    articles <- liftIO . runMongo conf $ findArticles conf cursorM Nothing Public period Nothing Nothing
+    html $ renderHtml $ $(hamletFile $ hamletPath "index") undefined
   get "/users/:user" $ do
     cursorM <- paramMaybe "cursor"
     user <- param "user"

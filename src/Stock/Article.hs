@@ -35,6 +35,7 @@ import Debug.Trace
 
 articleCollection = "articles"
 
+
 findArticle :: (Functor m, MonadIO m) => String -> Action m (Maybe Article)
 findArticle articleId = maybe Nothing bson2obj <$> findOne (select ["id" =: articleId] articleCollection)
 

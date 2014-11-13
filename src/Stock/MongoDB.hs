@@ -3,6 +3,7 @@ module Stock.MongoDB
        ( runMongo
        , obj2bson
        , bson2obj
+       , debugRunMongo
        ) where
 
 import           Control.Monad.IO.Class
@@ -15,6 +16,15 @@ import           Database.MongoDB
 import           Data.String.Conv
 import           Stock.Config
 import           Stock.Types
+
+--
+import           System.IO.Unsafe
+
+debugRunMongo :: Action IO a -> IO a
+debugRunMongo = runMongo conf
+  where conf = unsafePerformIO $ loadConfig "./config.json"
+
+----------------------------------------------------------------------
 
 runMongo :: Config -> Action IO a -> IO a
 runMongo conf act = do

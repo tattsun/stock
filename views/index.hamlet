@@ -13,12 +13,5 @@ $doctype 5
             ^{getArticleView conf article}
       <div .col-sm-4>
         <div .rightcolumn>
-          <h4>Tags
-          tagtag
-          <h4>Search
-          search
-          <h4>Recently
-          recently
-          <h4>Archive
-          archive
+          ^{rightmenu}
   ^{getFooter conf}

@@ -5,10 +5,14 @@ Knowledge stocking web tool, written in Haskell.
 - [x] Json API
 - [x] Tag view
 - [x] User view
-- [ ] Archive view
+- [x] Archive view
 - [ ] Login view
 - [ ] Post view
 - [ ] Side menu
+    + [x] Tags menu
+    + [x] Recently menu
+    + [ ] Search menu
+    + [ ] Archive menu
 - [x] Markdown Converter
 - [ ] Markdown Converter(improve)
 - [ ] Private/Public Views
