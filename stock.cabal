@@ -38,7 +38,7 @@ executable stock
                      , mongoDB
                      , mtl
                      , random
-                     , regex-compat >= 0.95.1
+                     , regex-compat
                      , scotty
                      , scotty-cookie
                      , shakespeare
@@ -51,36 +51,3 @@ executable stock
                      , wai-middleware-static
   -- hs-source-dirs:
   default-language:    Haskell2010
-
-test-suite test-stock
-  type:                exitcode-stdio-1.0
-  main-is:             Spec.hs
-  hs-source-dirs:      src, test
-  build-depends:       AesonBson
-                     , MissingH
-                     , SHA2
-                     , aeson
-                     , base
-                     , base64-bytestring
-                     , blaze-html
-                     , blaze-markup
-                     , bson
-                     , bytestring
-                     , containers
-                     , deepseq
-                     , hspec
-                     , monad-control
-                     , mongoDB
-                     , mtl
-                     , random
-                     , regex-compat >= 0.95.1
-                     , scotty
-                     , scotty-cookie
-                     , shakespeare
-                     , split
-                     , text
-                     , transformers
-                     , unix-time
-                     , utf8-string
-                     , wai-cors
-                     , wai-middleware-static
