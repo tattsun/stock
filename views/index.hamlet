@@ -5,7 +5,7 @@ $doctype 5
     <header>
       <div .container>
         <h1>
-          <a href=/ .logo_text>kamasu.jp developer's blog
+          <a href=/ .logo_text>#{T.pack $ configBlogTitle conf}
     <div .container>
       <div .row>
         <div .col-sm-8 .bgwhite>
