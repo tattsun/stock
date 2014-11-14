@@ -19,6 +19,7 @@ cabal-version:       >=1.10
 executable stock
   main-is:             Main.hs
   hs-source-dirs:      src
+  ghc-options:         -threaded -O
   -- other-modules:
   other-extensions:    OverloadedStrings, DeriveDataTypeable, TemplateHaskell
   build-depends:       AesonBson
