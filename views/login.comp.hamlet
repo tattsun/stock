@@ -1,0 +1,17 @@
+<div .bs-component>
+  <div .panel .panel-default>
+    <div .panel-body>
+      <h2>Login</h2>
+        <form .form-horizontal>
+          <fieldset>
+            <div .form-group>
+              <label for=login-userid .col-lg-2 .control-label>UserID
+              <div .col-lg-10>
+                <input type=text #login-userid  .form-control placeholder=UserID>
+            <div .form-group>
+              <label for=login-password .col-lg-2 .control-label>Password
+              <div .col-lg-10>
+                <input type=password #login-password  .form-control placeholder=Password><br />
+            <div .form-group .pull-right>
+              <div .col-lg-10 .col-lg-offset.2>
+                <button type=button value=Login onClick=view.Login() .btn .btn-primary>login

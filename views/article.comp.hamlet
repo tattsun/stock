@@ -10,9 +10,10 @@
       <a href=/#{T.pack $ articleId article}>
         <h2>#{T.pack $ articleTitle article}
       <div>
-        #{T.pack $ articleBody article}
+        #{preEscapedToMarkup $ T.pack $ articleBody article}
       <div .articleinfo>
         posted by #
         <a href=/users/#{T.pack $ articleAuthorId article}>#{T.pack $ articleAuthorName article}
-        \,
-        #{T.pack $ show $ length $ articleComments article} comments
+        \
+        $if region /= Public
+          , <a href=/edit/#{T.pack $ articleId article}>Edit

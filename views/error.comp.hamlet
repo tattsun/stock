@@ -1,0 +1,11 @@
+<div .bs-component>
+  <div .panel .panel-default>
+    <div .panel-body>
+      <h2>#{T.pack $ errorTitle}
+      <div>
+        #{T.pack $ errorDetail}<br />
+      <div .row>
+        <div .col-sm-4>
+          <a href=# onClick=view.BackToLastpage()>戻る
+        <div .col-sm-8 .pull-right style="text-align: right">
+          <a href=/>トップへ

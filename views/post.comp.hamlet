@@ -1,0 +1,31 @@
+<div .bs-component>
+  <div .panel .panel-default>
+    <div .panel-body>
+      <h2>Post</h2>
+        <form .form-horizontal>
+          <fieldset>
+            <div .form-group>
+              <label for=post-title .col-lg-2 .control-label>Title
+              <div .col-lg-10>
+                <input type=text #post-title .form-control placeholder=Title value=#{T.pack $ articleTitle article}>
+            <div .form-group>
+              <label for=post-ispublic .col-lg-2 .control-label>Public?
+              <div .col-lg-10>
+                $if articleShowRegion article == Public
+                  <input type=checkbox #post-ispublic .form-control checked>
+                $else
+                  <input type=checkbox #post-ispublic .form-control>
+            <div .form-group>
+              <label for=post-tags .col-lg-2 .control-label>Tags
+              <div .col-lg-10>
+                <input type=text #post-tags .form-control placeholder=Tags(,区切り) value=#{T.pack $ concat $ intersperse "," $ articleTag article}>
+            <div .form-group>
+              <label for=post-body .col-lg-2 .control-label>Body
+              <div .col-lg-10>
+                <textarea rows=7 #post-body .form-control>#{T.pack $ articleBodyMarkdown article}
+            <div .form-group .pull-right>
+              <div .col-lg-10 .col-lg-offset.2>
+                $if isUpdate
+                  <button type=button value=Post onClick=view.Post('#{T.pack $ articleId article}') .btn .btn-primary>post
+                $else
+                  <button type=button value=Post onClick=view.Post() .btn .btn-primary>post

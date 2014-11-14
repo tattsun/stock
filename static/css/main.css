@@ -85,3 +85,11 @@ h2 {
 .menutag {
     margin: 0.3em;
 }
+
+.logo-text {
+    color: #fff;
+}
+a.logo_text, a.logo_text:link, a.logo_text:visited, a.logo_text:hover, a.logo_text:active {
+    color: #fff;
+    text-decoration: none;
+}

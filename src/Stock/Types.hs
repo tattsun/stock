@@ -9,6 +9,7 @@ import           Codec.Binary.UTF8.String
 import           Data.Aeson
 import           Data.Aeson.TH
 import           Data.Char
+import           Data.List                (sortBy)
 
 --
 import           Stock.Types.DateTime
@@ -20,6 +21,7 @@ data Config = Config { configServerPort      :: Int
                      , configPasswordSalt    :: String
                      , configStaticPath      :: String
                      , configTopArticlesNum  :: Int
+                     , configArchiveListNum  :: Int
                      , configTokenLimitSec   :: Int
                      , configMongoDBHostName :: String
                      , configMongoDBName     :: String
@@ -56,6 +58,7 @@ data Article = Article { articleId           :: String
                        , articleAuthorName   :: String
                        , articleTag          :: [Tag]
                        , articleBody         :: String
+                       , articleBodyMarkdown :: String
                        , articleStockUserIds :: [String]
                        , articleComments     :: [Comment]
                        , articleLikeUserIds  :: [String]
@@ -69,6 +72,7 @@ defaultArticle = Article { articleId = ""
                          , articleAuthorName = ""
                          , articleTag = ["未分類"]
                          , articleBody = ""
+                         , articleBodyMarkdown = ""
                          , articleStockUserIds = []
                          , articleComments = []
                          , articleLikeUserIds = []
@@ -99,10 +103,12 @@ defaultUser = User { userId = ""
 ----------------------------------------------------------------------
 -- *** TagCount
 
-data TagCount = TagCount { tagCountName  :: String
-                         , tagCountCount :: Integer
+data TagCount = TagCount { tagCountName      :: String
+                         , tagCountPubCount  :: Integer
+                         , tagCountPrivCount :: Integer
                          } deriving (Show, Eq)
 $(deriveJSON defaultOptions{fieldLabelModifier = fieldFix 8} ''TagCount)
 
-instance Ord TagCount where
-  l `compare` r = (tagCountCount l) `compare` (tagCountCount r)
+tagSort :: ShowRegion -> [TagCount] -> [TagCount]
+tagSort Public tags = sortBy (\l r -> tagCountPubCount r `compare` tagCountPubCount l) tags
+tagSort _ tags = sortBy (\l r -> (tagCountPrivCount r + tagCountPubCount r) `compare` (tagCountPrivCount l + tagCountPubCount l)) tags

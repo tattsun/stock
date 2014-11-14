@@ -6,15 +6,17 @@ Knowledge stocking web tool, written in Haskell.
 - [x] Tag view
 - [x] User view
 - [x] Archive view
-- [ ] Login view
-- [ ] Post view
+- [x] Login view
+- [x] Post view
+- [x] Update view
 - [ ] Side menu
     + [x] Tags menu
     + [x] Recently menu
     + [ ] Search menu
-    + [ ] Archive menu
+    + [x] Archive menu
 - [x] Markdown Converter
 - [ ] Markdown Converter(improve)
-- [ ] Private/Public Views
+- [x] Private/Public Views
 - [ ] Uploader
 - [ ] Error view
+- [ ] SmartPhone Compatibility

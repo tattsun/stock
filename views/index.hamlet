@@ -1,16 +1,16 @@
 $doctype 5
 <html>
   ^{getHead conf Nothing}
-  <body>
+  <body onLoad=view.Initialize()>
     <header>
       <div .container>
-        <h1>kamasu.jp developer's blog
+        <h1>
+          <a href=/ .logo_text>kamasu.jp developer's blog
     <div .container>
       <div .row>
         <div .col-sm-8 .bgwhite>
           <div .leftcolumn>
-            $forall article <- articles
-              ^{getArticleView conf article}
+            ^{leftcolumn}
         <div .col-sm-4>
           <div .rightcolumn>
             ^{rightmenu}

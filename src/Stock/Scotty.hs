@@ -18,7 +18,7 @@ import qualified Data.Text.Lazy      as TL
 import           Web.Scotty
 
 
-data Status = Success | Token | DataDuplicated | Unauthorized deriving (Show, Eq)
+data Status = Success | Token | DataDuplicated | Unauthorized | Failed deriving (Show, Eq)
 
 toStatus :: Status -> String -> Value
 toStatus status detail = object $ ["statusId" .= show status

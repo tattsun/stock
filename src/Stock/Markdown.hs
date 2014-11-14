@@ -31,6 +31,7 @@ data MParser = MParser { mparserValues :: [MValue], mparserLeft :: String }
              | MError String String
                deriving (Show, Eq)
 
+tp = "# unpi\n- List\n- Foobar\n    + Unpee\n\nふぉお"
 encode = toMD . toMValue
 
 toMD (MValue vals) = concat $ map toMD vals
@@ -76,7 +77,8 @@ takeDiscs (MParser vals str) = MParser ( (parseDiscs 1 discLines) :vals) left
         left = concat $ drop (length discLines) strLines
 
 isDisc :: String -> Bool
-isDisc line = head (dropWhile (==' ') . takeWhile (/= '\n') $ line) `elem` ['-','+','*']
+isDisc line =  maybe False (\h -> h `elem` ['-','+','*']) headM
+  where headM = listToMaybe (dropWhile (==' ') . takeWhile (/= '\n') $ line)
 
 parseDiscs :: Int -> [String] -> MValue
 parseDiscs level strs = MDisc level (fold 0 [] False)

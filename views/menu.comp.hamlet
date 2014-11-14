@@ -1,12 +1,31 @@
 <h4>Tags
-$forall tag <- tags
-  <span .menutag>
-    <a href=/tag/#{T.pack $ tagCountName tag}>#{T.pack $ tagCountName tag}(#{T.pack $ show $ tagCountCount tag})
-<h4>Search
-search
+$if region == Private
+  $forall tag <- tags
+    <span .menutag>
+      <a href=/tag/#{T.pack $ tagCountName tag}>#{T.pack $ tagCountName tag}(#{T.pack $ show $ tagCountPrivCount tag})
+$else
+  $forall tag <- tags
+    <span .menutag>
+      <a href=/tag/#{T.pack $ tagCountName tag}>#{T.pack $ tagCountName tag}(#{T.pack $ show $ tagCountPubCount tag})
+<!--<h4>Search
+search-->
 <h4>Recently
 <ul>
   $forall recent <- recents
-    <li><a href=/#{T.pack $ articleId recent}>#{T.pack $ cutTitle 8 $ articleTitle recent}
+    <li>
+      <a href=/#{T.pack $ articleId recent}>#{T.pack $ cutTitle 8 $ articleTitle recent}
 <h4>Archive
-archive
+$forall month <- recentMonths
+  <li>
+    <a href=/archive/#{T.pack $ rmYear month}/#{T.pack $ rmMonth month}>
+      #{T.pack $ rmYear month}年#{T.pack $ rmMonth month}月(#{T.pack $ show $ rmArticleCount month})
+<h4>Login
+<ul>
+  $if region == Private
+    <li>
+      <a href=/post>Post
+    <li>
+      <a href=# onClick=view.Logout()>Logout
+  $else
+    <li>
+      <a href=/login>Login

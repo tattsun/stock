@@ -30,7 +30,7 @@ run conf = scotty (configServerPort conf) $ do
   middlewares conf
   japiUser conf
   japiArticle conf
-  viewIndex conf
+  views conf
 
 main :: IO ()
 main = do

@@ -1,0 +1,2 @@
+$forall article <- articles
+  ^{getArticleView conf article region}

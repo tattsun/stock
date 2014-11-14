@@ -22,31 +22,33 @@ executable stock
   -- other-modules:
   other-extensions:    OverloadedStrings, DeriveDataTypeable, TemplateHaskell
   build-depends:       AesonBson
-                     , MissingH >= 1.3.0.1
+                     , MissingH
                      , SHA2
-                     , aeson >= 0.6.2.1
-                     , base >=4.7 && <4.8
+                     , aeson
+                     , base
                      , base64-bytestring
-                     , blaze-html >= 0.7.0.3
-                     , blaze-markup >= 0.6.1.1
-                     , bson >= 0.3.1
-                     , bytestring >=0.10 && <0.11
-                     , containers >= 0.5.5.1
-                     , deepseq >=1.3 && <1.4
-                     , hspec >= 1.12.2
-                     , monad-control >= 0.3.3.0
+                     , blaze-html
+                     , blaze-markup
+                     , bson
+                     , bytestring
+                     , containers
+                     , deepseq
+                     , hspec
+                     , monad-control
                      , mongoDB
-                     , mtl >=2.1 && <2.2
-                     , random >= 1.0.1.1
-                     , scotty >=0.9 && <0.10
-                     , shakespeare >= 2.0.1.1
-                     , split >= 0.2.2
-                     , text >=1.2 && <1.3
-                     , transformers >=0.3 && <0.4
-                     , unix-time >= 0.3.4
-                     , utf8-string >=0.3 && <0.4
-                     , wai-cors >=0.2 && <0.3
-                     , wai-middleware-static >= 0.6.0.1
+                     , mtl
+                     , random
+                     , regex-compat >= 0.95.1
+                     , scotty
+                     , scotty-cookie
+                     , shakespeare
+                     , split
+                     , text
+                     , transformers
+                     , unix-time
+                     , utf8-string
+                     , wai-cors
+                     , wai-middleware-static
   -- hs-source-dirs:
   default-language:    Haskell2010
 
@@ -55,30 +57,30 @@ test-suite test-stock
   main-is:             Spec.hs
   hs-source-dirs:      src, test
   build-depends:       AesonBson
-                     , MissingH >= 1.3.0.1
+                     , MissingH
                      , SHA2
-                     , aeson >= 0.6.2.1
-                     , base >= 4.7
-                     , base >=4.7 && <4.8
+                     , aeson
+                     , base
                      , base64-bytestring
-                     , blaze-html >= 0.7.0.3
-                     , blaze-markup >= 0.6.1.1
-                     , bson >= 0.3.1
-                     , bytestring >=0.10 && <0.11
-                     , containers >= 0.5.5.1
-                     , deepseq >=1.3 && <1.4
+                     , blaze-html
+                     , blaze-markup
+                     , bson
+                     , bytestring
+                     , containers
+                     , deepseq
                      , hspec
-                     , hspec >= 1.12.2
-                     , monad-control >= 0.3.3.0
+                     , monad-control
                      , mongoDB
-                     , mtl >=2.1 && <2.2
-                     , random >= 1.0.1.1
-                     , scotty >=0.9 && <0.10
-                     , shakespeare >= 2.0.1.1
-                     , split >= 0.2.2
-                     , text >=1.2 && <1.3
-                     , transformers >=0.3 && <0.4
-                     , unix-time >= 0.3.4
-                     , utf8-string >=0.3 && <0.4
-                     , wai-cors >=0.2 && <0.3
-                     , wai-middleware-static >= 0.6.0.1
+                     , mtl
+                     , random
+                     , regex-compat >= 0.95.1
+                     , scotty
+                     , scotty-cookie
+                     , shakespeare
+                     , split
+                     , text
+                     , transformers
+                     , unix-time
+                     , utf8-string
+                     , wai-cors
+                     , wai-middleware-static
